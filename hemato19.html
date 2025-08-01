@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 19: Estudos de Caso e Análise de Incidentes</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 19: Estudos de Caso</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">📖</span> Introdução</a></li>
+                <li><a href="#analise"><span class="icon">🔬</span> Análise de Incidentes</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>📖 Capítulo 19: Estudos de Caso e Análise de Incidentes</h1>
+            <p class="subtitulo">Aprendendo com o passado para construir um futuro mais seguro.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Aprendendo com a Experiência</h2>
+            <p>A <strong>análise retrospectiva de acidentes</strong> é uma das mais poderosas ferramentas de aprendizado em qualquer área de alto risco, incluindo os laboratórios clínicos. Estudar casos reais de incidentes, entender a cadeia de eventos que levaram à falha e extrair as lições aprendidas é fundamental para fortalecer os sistemas de segurança e qualidade.</p>
+            <p>Esta abordagem transforma erros passados, sejam eles do próprio laboratório ou de outros, em conhecimento prático para a prevenção de futuros acidentes.</p>
+        </section>
+        
+        <section id="analise" class="content-section">
+            <h2>🔬 2. Análise de Acidentes Clássicos e Lições Aprendidas</h2>
+            <p>Analisar casos reais ajuda a materializar os riscos e a compreender a importância dos protocolos de segurança.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Caso 1: Acidente com Perfurocortante e Contaminação por Hepatite B</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <h3>Cenário:</h3>
+                        <p>Um técnico de laboratório, ao tentar reencapar uma agulha após uma coleta de sangue, perfura seu dedo. O paciente-fonte era portador crônico do vírus da Hepatite B (HBV), e o técnico não havia completado seu esquema vacinal nem checado sua soroconversão.</p>
+                        <h3>Falhas:</h3>
+                        <ul>
+                            <li><strong>Falha de Procedimento:</strong> Violação da regra fundamental de não reencapar agulhas (NR-32).</li>
+                            <li><strong>Falha de Proteção Individual:</strong> Imunização incompleta e falta de monitoramento da resposta vacinal (anti-HBs).</li>
+                            <li><strong>Falha do Sistema:</strong> Possível falta de fiscalização do cumprimento das normas e de monitoramento do status vacinal da equipe.</li>
+                        </ul>
+                        <h3>Lições Aprendidas:</h3>
+                        <p>A importância crítica da adesão estrita aos POPs, a proibição absoluta do reencape de agulhas e a responsabilidade do laboratório em garantir e monitorar a imunização completa de sua equipe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Caso 2: A Tragédia da Hemodiálise em Caruaru (Evento Sentinela)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <h3>Cenário:</h3>
+                         <p>Em 1996, em Caruaru-PE, mais de 100 pacientes de uma clínica de hemodiálise desenvolveram insuficiência hepática aguda, resultando em dezenas de mortes. A investigação revelou que a água utilizada no procedimento estava contaminada com microcistinas, toxinas produzidas por cianobactérias.</p>
+                         <h3>Análise:</h3>
+                         <p>Embora não seja um acidente de laboratório de análises clínicas, este é um <strong>evento sentinela</strong> clássico. Ele oferece lições valiosas sobre a importância crítica do <strong>controle de qualidade de insumos</strong>. A água, um insumo básico, não passou por um controle de qualidade adequado, levando a consequências catastróficas.</p>
+                         <h3>Lições Aprendidas:</h3>
+                         <p>A qualidade não se aplica apenas à análise em si, mas a todas as etapas e materiais envolvidos no processo, incluindo reagentes, calibradores, controles e até mesmo a água utilizada. A validação e o controle de qualidade de todos os insumos são indispensáveis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 3. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Análise Retrospectiva</div>
+                        <div class="flashcard-verso">O estudo de acidentes e incidentes que já ocorreram para entender suas causas e extrair lições para o futuro.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Lições Aprendidas</div>
+                        <div class="flashcard-verso">O conhecimento prático obtido a partir da análise de um incidente, que deve ser usado para melhorar processos e prevenir a recorrência.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Evento Sentinela</div>
+                        <div class="flashcard-verso">Um evento adverso grave e inesperado que sinaliza a necessidade de investigação imediata e resposta para identificar falhas sistêmicas.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Falha de Procedimento</div>
+                        <div class="flashcard-verso">Uma das causas mais comuns de acidentes, ocorre quando um profissional desvia de um Procedimento Operacional Padrão (POP) estabelecido.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Controle de Insumos</div>
+                        <div class="flashcard-verso">Princípio de qualidade que exige a verificação e validação de todos os materiais usados no processo, como reagentes, água e controles.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 4. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre análise de incidentes.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Qual é o principal objetivo da análise retrospectiva de acidentes?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Encontrar um culpado para o acidente.</label><label><input type="radio" name="q1" value="b"> b) Apenas documentar o que aconteceu para fins de seguro.</label><label><input type="radio" name="q1" value="c"> c) Extrair lições aprendidas para fortalecer os sistemas e prevenir futuros acidentes.</label><label><input type="radio" name="q1" value="d"> d) Criar novos POPs do zero.</label></div></div>
+                    <div class="questao"><p>2. A tentativa de reencapar uma agulha, que viola uma norma de segurança explícita, é um exemplo de qual tipo de falha?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Falha de equipamento</label><label><input type="radio" name="q2" value="b"> b) Falha de procedimento</label><label><input type="radio" name="q2" value="c"> c) Falha de insumo</label><label><input type="radio" name="q2" value="d"> d) Evento sentinela</label></div></div>
+                    <div class="questao"><p>3. Um evento adverso grave e inesperado que sinaliza uma falha sistêmica profunda e exige investigação imediata é chamado de:</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Não conformidade menor</label><label><input type="radio" name="q3" value="b"> b) Erro aleatório</label><label><input type="radio" name="q3" value="c"> c) Evento Sentinela</label><label><input type="radio" name="q3" value="d"> d) Auditoria interna</label></div></div>
+                    <div class="questao"><p>4. A tragédia da hemodiálise em Caruaru, causada por água contaminada, ensina uma lição crucial sobre a importância do quê?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Do uso correto de EPIs.</label><label><input type="radio" name="q4" value="b"> b) Da calibração dos equipamentos.</label><label><input type="radio" name="q4" value="c"> c) Do controle de qualidade rigoroso de todos os insumos.</label><label><input type="radio" name="q4" value="d"> d) Da comunicação de acidentes de trabalho (CAT).</label></div></div>
+                    <div class="questao"><p>5. A falta de monitoramento da resposta vacinal (anti-HBs) de um profissional que se acidenta com material contaminado por Hepatite B é uma falha de qual aspecto da segurança?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Proteção coletiva (EPC)</label><label><input type="radio" name="q5" value="b"> b) Sistema de gestão de resíduos</label><label><input type="radio" name="q5" value="c"> c) Proteção individual e do sistema de saúde ocupacional</label><label><input type="radio" name="q5" value="d"> d) Qualidade pós-analítica</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 19: Estudos de Caso e Análise de Incidentes.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'c', q2: 'b', q3: 'c', q4: 'c', q5: 'c'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

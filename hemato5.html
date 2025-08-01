@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 5: Classificação de Riscos</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 5: Classificação de Riscos</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">🗺️</span> Introdução</a></li>
+                <li><a href="#tipos-risco"><span class="icon">⚠️</span> Tipos de Riscos</a></li>
+                <li><a href="#avaliacao-agentes"><span class="icon">🚦</span> Avaliação de Agentes</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>🗺️ Capítulo 5: Classificação de Riscos em Laboratórios Hematológicos</h1>
+            <p class="subtitulo">Identificando a natureza multifacetada dos perigos para construir um ambiente de trabalho seguro.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Introdução</h2>
+            <p>A segurança em um laboratório de hematologia começa com a identificação e a compreensão da natureza multifacetada dos riscos presentes. A percepção de que o perigo vai além do risco biológico é fundamental para a construção de um programa de segurança abrangente e eficaz.</p>
+            <p>Os riscos são classificados em cinco categorias principais, cada uma exigindo estratégias de mitigação específicas.</p>
+        </section>
+        
+        <section id="tipos-risco" class="content-section">
+            <h2>⚠️ 2. Os 5 Tipos de Riscos Laboratoriais</h2>
+            <p>Clique em cada tipo de risco para ver os detalhes e exemplos.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Risco Biológico</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>É o risco mais proeminente em hematologia, decorrente da manipulação de amostras que podem conter vírus, bactérias, fungos e parasitas. A exposição pode ocorrer por perfurocortantes, contato com mucosas, inalação de aerossóis ou contato com pele não íntegra.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Risco Químico</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>Surge da exposição a substâncias como corantes (tóxicos ou irritantes), solventes, ácidos, bases e desinfetantes. A gestão adequada envolve o uso de capelas de exaustão e o conhecimento das Fichas de Informações de Segurança de Produtos Químicos (FISPQ).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Risco Físico</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>Refere-se a diversas formas de energia que podem causar danos, como ruído de centrífugas, temperaturas extremas (freezers, estufas), radiações e eletricidade.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Risco Ergonômico</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>Relaciona-se à adaptação do trabalho ao trabalhador. Posturas inadequadas durante a microscopia e movimentos repetitivos na pipetagem podem levar a Lesões por Esforços Repetitivos (LER) e Distúrbios Osteomusculares Relacionados ao Trabalho (DORT).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Risco de Acidentes</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>Engloba qualquer fator que coloque o trabalhador em situação de perigo, como arranjo físico inadequado, iluminação deficiente, pisos escorregadios, risco de incêndio e, de forma proeminente, acidentes com materiais perfurocortantes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="avaliacao-agentes" class="content-section">
+            <h2>🚦 3. Avaliação e Classificação de Agentes Etiológicos</h2>
+            <p>A avaliação do risco biológico é formalizada pela classificação dos agentes em quatro Classes de Risco, que determinam o nível de contenção necessário.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">As 4 Classes de Risco</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Classe de Risco 1:</strong> Baixo risco individual e para a comunidade. Agentes que não causam doenças em humanos sadios.</li>
+                            <li><strong>Classe de Risco 2:</strong> Risco individual moderado, risco comunitário limitado. É a classe que se aplica <strong>por padrão</strong> aos laboratórios clínicos.</li>
+                            <li><strong>Classe de Risco 3:</strong> Alto risco individual, risco comunitário limitado a moderado. Agentes que causam doenças graves.</li>
+                            <li><strong>Classe de Risco 4:</strong> Alto risco individual e comunitário. Agentes altamente patogênicos e transmissíveis, sem tratamento eficaz.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 4. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Risco Ergonômico</div>
+                        <div class="flashcard-verso">Risco relacionado à adaptação inadequada do trabalho ao ser humano, causando lesões como LER/DORT por posturas ou movimentos repetitivos.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Risco Químico</div>
+                        <div class="flashcard-verso">Perigo associado à exposição a substâncias como corantes, solventes e reagentes, que podem ser tóxicos ou irritantes.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Risco de Acidentes</div>
+                        <div class="flashcard-verso">Qualquer fator que possa causar dano físico imediato, como pisos escorregadios, falhas elétricas ou acidentes com perfurocortantes.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Classe de Risco 2</div>
+                        <div class="flashcard-verso">Nível de risco padrão para laboratórios clínicos, com agentes de risco individual moderado e comunitário limitado (ex: HIV, HBV).</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">FISPQ</div>
+                        <div class="flashcard-verso">Ficha de Informações de Segurança de Produtos Químicos. Documento essencial para a gestão do risco químico.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 5. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre a classificação de riscos.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Lesões por Esforços Repetitivos (LER) devido a longas horas de pipetagem ou uso de microscópio são classificadas em qual categoria de risco?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Risco Físico</label><label><input type="radio" name="q1" value="b"> b) Risco de Acidentes</label><label><input type="radio" name="q1" value="c"> c) Risco Ergonômico</label><label><input type="radio" name="q1" value="d"> d) Risco Químico</label></div></div>
+                    <div class="questao"><p>2. A manipulação de corantes tóxicos e solventes em um laboratório de hematologia representa, primariamente, que tipo de risco?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Risco Biológico</label><label><input type="radio" name="q2" value="b"> b) Risco Físico</label><label><input type="radio" name="q2" value="c"> c) Risco Químico</label><label><input type="radio" name="q2" value="d"> d) Risco Ergonômico</label></div></div>
+                    <div class="questao"><p>3. Por padrão, um laboratório clínico de rotina que manipula amostras de sangue de pacientes (onde a presença de patógenos como HIV ou Hepatite B pode ser desconhecida) opera sob qual Classe de Risco biológico?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Classe de Risco 1</label><label><input type="radio" name="q3" value="b"> b) Classe de Risco 2</label><label><input type="radio" name="q3" value="c"> c) Classe de Risco 3</label><label><input type="radio" name="q3" value="d"> d) Classe de Risco 4</label></div></div>
+                    <div class="questao"><p>4. O ruído excessivo de equipamentos e o perigo de choques elétricos são exemplos de qual categoria de risco?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Risco de Acidentes</label><label><input type="radio" name="q4" value="b"> b) Risco Biológico</label><label><input type="radio" name="q4" value="c"> c) Risco Ergonômico</label><label><input type="radio" name="q4" value="d"> d) Risco Físico</label></div></div>
+                    <div class="questao"><p>5. Qual é o risco mais proeminente e constantemente presente em um laboratório de hematologia, que justifica a adoção das Precauções Universais?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Risco de Incêndio</label><label><input type="radio" name="q5" value="b"> b) Risco Químico</label><label><input type="radio" name="q5" value="c"> c) Risco Biológico</label><label><input type="radio" name="q5" value="d"> d) Risco Ergonômico</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 5: Classificação de Riscos em Laboratórios Hematológicos.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'c', q2: 'c', q3: 'b', q4: 'd', q5: 'c'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

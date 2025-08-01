@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 21: Anexos Técnicos e Formulários</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, .acordeao-conteudo-interno li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        /* Estilização específica para listas no conteúdo, para não afetar o menu */
+        .acordeao-conteudo-interno ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .acordeao-conteudo-interno li {
+            padding-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        .acordeao-conteudo-interno li::before {
+            content: "✓";
+            color: var(--cor-verde);
+            margin-right: 10px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 21: Anexos e Formulários</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">🛠️</span> Introdução</a></li>
+                <li><a href="#ferramentas"><span class="icon">📋</span> Ferramentas Práticas</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>🛠️ Capítulo 21: Anexos Técnicos e Formulários</h1>
+            <p class="subtitulo">Um kit de ferramentas práticas com checklists e modelos para uso ou adaptação no seu laboratório.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Kit de Ferramentas da Qualidade</h2>
+            <p>Esta seção final serve como um recurso prático, contendo ferramentas prontas para uso ou adaptação no dia a dia do laboratório. O objetivo é fornecer modelos que ajudem a implementar e a monitorar os processos de qualidade e segurança discutidos ao longo do curso.</p>
+            <p>Utilize estes exemplos como ponto de partida para desenvolver os documentos específicos para a realidade e os processos do seu serviço.</p>
+        </section>
+        
+        <section id="ferramentas" class="content-section">
+            <h2>📋 2. Modelos e Ferramentas</h2>
+            <p>Clique em cada item para expandir e ver um modelo simplificado do documento.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Checklist de Auditoria Interna (Exemplo)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <h3>Área: Biossegurança</h3>
+                        <ul>
+                            <li>Os EPIs estão disponíveis, em bom estado e são utilizados corretamente?</li>
+                            <li>As Cabines de Segurança Biológica possuem certificação válida?</li>
+                            <li>Os coletores de perfurocortantes estão corretamente instalados e não ultrapassam o limite de preenchimento?</li>
+                            <li>Os POPs de biossegurança estão acessíveis a toda a equipe?</li>
+                            <li>A segregação de resíduos (Grupos A, B, E) está sendo feita corretamente?</li>
+                        </ul>
+                        <h3>Área: Controle de Qualidade</h3>
+                        <ul>
+                            <li>O controle interno é passado e registrado diariamente?</li>
+                            <li>Os gráficos de Levey-Jennings estão atualizados?</li>
+                            <li>As não conformidades do CQ são registradas e investigadas?</li>
+                            <li>O laboratório participa de um Ensaio de Proficiência (CQ Externo)?</li>
+                            <li>Os certificados de calibração dos equipamentos estão válidos?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Planilha de Controle de Qualidade (Modelo)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <h3>Estrutura Básica:</h3>
+                         <p>Uma planilha de CQ (como no Excel ou software específico) deve conter colunas para:</p>
+                         <ul>
+                            <li><strong>Data e Hora</strong></li>
+                            <li><strong>Analito</strong> (ex: Hemoglobina, Leucócitos)</li>
+                            <li><strong>Nível do Controle</strong> (Baixo, Normal, Alto)</li>
+                            <li><strong>Lote do Controle</strong></li>
+                            <li><strong>Valor Obtido</strong></li>
+                            <li><strong>Média e Desvios Padrão (DP) definidos</strong></li>
+                            <li><strong>Analista Responsável</strong></li>
+                            <li><strong>Ação Corretiva (se aplicável)</strong></li>
+                         </ul>
+                         <p>Os dados desta planilha são usados para gerar os gráficos de Levey-Jennings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Relatório de Não Conformidade (Modelo)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <h3>Estrutura do Formulário:</h3>
+                         <ul>
+                            <li><strong>Número de Identificação Único do Relatório</strong></li>
+                            <li><strong>Data da Ocorrência</strong></li>
+                            <li><strong>Setor Onde Ocorreu</strong></li>
+                            <li><strong>Descrição da Não Conformidade:</strong> (O que aconteceu?)</li>
+                            <li><strong>Análise de Causa Raiz:</strong> (Por que aconteceu? Usar 5 Porquês ou Ishikawa)</li>
+                            <li><strong>Plano de Ação Corretiva:</strong> (O que será feito para corrigir e evitar a repetição?)</li>
+                            <li><strong>Responsável pela Ação e Prazo</strong></li>
+                            <li><strong>Verificação da Eficácia da Ação:</strong> (A ação funcionou?)</li>
+                            <li><strong>Data de Encerramento</strong></li>
+                         </ul>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 21: Anexos Técnicos e Formulários.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

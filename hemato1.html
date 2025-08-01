@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 1: Evolução Histórica da Hematologia</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+
+        /* Imagem */
+        .imagem-container {
+            border: 2px solid var(--cor-borda);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .imagem-container:hover {
+            box-shadow: 0 6px 12px var(--cor-sombra);
+        }
+
+        .imagem-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .imagem-container p {
+            padding: 10px;
+            background-color: #f8f9fa;
+            margin: 0;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 1: Evolução Histórica</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">📜</span> Introdução</a></li>
+                <li><a href="#origens"><span class="icon">🔬</span> As Origens</a></li>
+                <li><a href="#visualizacao"><span class="icon">🎨</span> Era da Visualização</a></li>
+                <li><a href="#automacao"><span class="icon">⚙️</span> A Revolução da Automação</a></li>
+                <li><a href="#era-moderna"><span class="icon">💻</span> A Era Moderna e a IA</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>📜 Capítulo 1: Evolução Histórica da Hematologia Laboratorial e Seus Métodos</h1>
+            <p class="subtitulo">Uma jornada das teorias humorais à hematologia digital impulsionada por inteligência artificial.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Introdução</h2>
+            <p>A hematologia, como disciplina científica, é uma construção notavelmente moderna, mas suas raízes se estendem aos primórdios da medicina. Compreender essa trajetória é fundamental para o profissional contemporâneo, pois cada avanço tecnológico resolveu um conjunto de problemas enquanto introduzia uma nova classe de desafios em biossegurança e controle de qualidade.</p>
+            <p>Esta aula explora a fascinante narrativa sobre a evolução do pensamento científico, o desenvolvimento tecnológico e a contínua reavaliação dos riscos e das competências necessárias para garantir a segurança e a qualidade no laboratório de hematologia.</p>
+        </section>
+        
+        <section id="origens" class="content-section">
+            <h2>🔬 2. As Origens: Do Desequilíbrio Interno à Invasão Externa</h2>
+            <p>Durante séculos, a medicina diagnóstica esteve dominada pela uroscopia (inspeção da urina). A mudança de paradigma veio com a Renascença e o Iluminismo, que gradualmente abriram caminho para que o sangue se tornasse o principal objeto de estudo.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">O Paradigma de Paracelsus</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>Figuras como o alquimista suíço-alemão <strong>Paracelsus (1493-1541)</strong>, embora ainda imerso em misticismo, anteciparam conceitos revolucionários. Ele postulou que as doenças eram resultado de agentes externos que invadiam o corpo, uma prefiguração da teoria dos germes. Essa mudança de foco, do desequilíbrio interno para a invasão externa, foi crucial.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">O Microscópio e Athanasius Kircher</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>O catalisador indispensável para essa transição foi a invenção do microscópio. O padre jesuíta alemão <strong>Athanasius Kircher (1602-1680)</strong> foi o primeiro a utilizar o microscópio para fins de diagnóstico laboratorial. Em 1646, ao examinar o sangue de vítimas da peste, ele registrou a visualização de "vermes" minúsculos (a bactéria <em>Yersinia pestis</em>).</p>
+                         <p>Notavelmente, Kircher foi além da observação, propondo medidas de higiene como isolamento, quarentena e o uso de máscaras, estabelecendo uma conexão primordial entre a observação hematológica e os princípios de controle de infecção.</p>
+                         <div class="imagem-container">
+                            <img src="https://placehold.co/800x400/0057B8/FFFFFF?text=Microscópio+Primitivo" alt="Desenho de um microscópio primitivo">
+                            <p>Um dos primeiros microscópios, ferramenta que revolucionou o estudo do sangue.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualizacao" class="content-section">
+            <h2>🎨 3. A Era da Visualização e Quantificação Manual</h2>
+            <p>O desenvolvimento e refinamento do microscópio inauguraram a primeira era da hematologia: a da observação e quantificação manual. Esta "primeira geração" do hemograma foi caracterizada por um trabalho meticuloso e artesanal.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Marcos da Quantificação e Coloração</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p><strong>Hemocitômetro (1874):</strong> Um salto qualitativo ocorreu com a criação do hemocitômetro (ex: câmara de Neubauer), que permitia a contagem de células em um volume conhecido. Pela primeira vez, a hematologia passou de uma ciência puramente descritiva para uma disciplina quantitativa.</p>
+                        <p><strong>Corantes de Ehrlich e Romanowsky:</strong> O trabalho pioneiro de Paul Ehrlich e, posteriormente, o desenvolvimento dos corantes do tipo Romanowsky (como May-Grünwald e Giemsa) permitiram a diferenciação dos tipos de leucócitos e a avaliação detalhada da morfologia celular.</p>
+                        <p><strong>Grupos Sanguíneos:</strong> A descoberta dos grupos sanguíneos ABO por Karl Landsteiner em 1901 e do sistema Rh (1939-1940) revolucionou a medicina transfusional.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Riscos da Era Manual</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>As práticas laboratoriais dessa era, embora fundamentais, apresentavam riscos de biossegurança significativos. A pipetagem com a boca, a manipulação de amostras abertas e o contato direto com material biológico eram comuns. A segurança e a qualidade dependiam quase exclusivamente da destreza e da atenção meticulosa do técnico individual.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="automacao" class="content-section">
+            <h2>⚙️ 4. A Revolução da Automação: A Segunda Geração</h2>
+            <p>A "segunda geração" do hemograma nasceu em meados do século XX com a automação, um evento que transformou radicalmente a prática hematológica e o gerenciamento de riscos.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">O Princípio Coulter (1950)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>O marco central foi a invenção do <strong>Princípio Coulter</strong> por Wallace Coulter. Essa tecnologia, baseada na medição de alterações na impedância elétrica à medida que as células passam por uma pequena abertura, permitiu a contagem de células sanguíneas de forma rápida, precisa e em larga escala. O hemograma tornou-se um pilar da rotina médica.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Citometria de Fluxo (década de 1970)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>A tecnologia de impedância foi complementada pela citometria de fluxo, que utiliza um feixe de laser para analisar as células individualmente. Isso permitiu uma diferenciação leucocitária muito mais sofisticada e a identificação de subpopulações celulares, abrindo novas fronteiras no diagnóstico de leucemias e linfomas.</p>
+                        <div class="imagem-container">
+                            <img src="https://placehold.co/800x400/28A745/FFFFFF?text=Diagrama+de+Citometria+de+Fluxo" alt="Diagrama de Citometria de Fluxo">
+                            <p>Esquema simplificado da análise celular por citometria de fluxo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Novos Riscos e Desafios de Qualidade</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>A automação reduziu drasticamente o risco de exposição direta do profissional. No entanto, introduziu uma nova e perigosa categoria de risco: o <strong>erro sistemático em larga escala</strong>. Um desvio de calibração ou um lote de reagente defeituoso poderiam afetar milhares de resultados. Consequentemente, o foco do controle de qualidade deslocou-se da verificação de uma única contagem para o gerenciamento complexo de todo o sistema analítico.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="era-moderna" class="content-section">
+            <h2>💻 5. A Era Moderna: Biologia Molecular, Hematologia Digital e IA</h2>
+            <p>A hematologia contemporânea representa a convergência de múltiplas tecnologias avançadas, prometendo uma nova revolução na morfologia celular e no diagnóstico.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Biologia Molecular</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>Técnicas como a Reação em Cadeia da Polimerase (PCR) e o sequenciamento de nova geração (NGS) tornaram-se indispensáveis. Elas oferecem um diagnóstico de altíssima definição para doenças hereditárias, a detecção de mutações em neoplasias e o monitoramento de doença residual mínima.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Hematologia Digital e Inteligência Artificial (IA)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>Sistemas de escaneamento automatizado de lâminas criam imagens digitais de alta resolução. Algoritmos de IA são então capazes de pré-classificar leucócitos e caracterizar a morfologia de eritrócitos e plaquetas.</p>
+                        <h3>Benefícios:</h3>
+                        <ul>
+                            <li><strong>Padronização:</strong> Reduz a variabilidade interobservador.</li>
+                            <li><strong>Eficiência:</strong> Acelera o fluxo de trabalho.</li>
+                            <li><strong>Telehematologia:</strong> Permite diagnósticos remotos por especialistas.</li>
+                            <li><strong>Auxílio ao Diagnóstico:</strong> Ajuda a identificar padrões complexos e sugerir hipóteses.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Riscos da Nova Era</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>Esta nova era tecnológica traz consigo um novo conjunto de riscos. A segurança e a qualidade agora dependem criticamente da robustez da infraestrutura de TI, da validação rigorosa dos algoritmos de IA, da cibersegurança e do risco de "desqualificação" (<em>de-skilling</em>) da equipe, que pode perder proficiência na microscopia manual, uma habilidade que permanece insubstituível em casos complexos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 6. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Athanasius Kircher</div>
+                        <div class="flashcard-verso">Primeiro a usar o microscópio para diagnóstico (1646), observando "vermes" no sangue de vítimas da peste.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Hemocitômetro</div>
+                        <div class="flashcard-verso">Criado em 1874, permitiu a contagem quantitativa de células, transformando a hematologia em uma ciência quantitativa.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Princípio Coulter</div>
+                        <div class="flashcard-verso">Inventado em 1950, baseia-se na alteração da impedância elétrica para contar células, iniciando a automação em larga escala.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Erro Sistemático</div>
+                        <div class="flashcard-verso">Novo tipo de risco introduzido pela automação, onde uma falha de calibração pode afetar milhares de resultados.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Hematologia Digital</div>
+                        <div class="flashcard-verso">Utiliza IA para escanear lâminas e pré-classificar células, mas traz riscos como a cibersegurança e a "desqualificação" da equipe.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 7. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre a evolução da hematologia.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Qual avanço tecnológico foi o marco inicial da automação em larga escala na hematologia, permitindo contagens celulares rápidas e precisas?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Invenção dos corantes de Romanowsky</label><label><input type="radio" name="q1" value="b"> b) Criação do hemocitômetro</label><label><input type="radio" name="q1" value="c"> c) Invenção do Princípio Coulter</label><label><input type="radio" name="q1" value="d"> d) Desenvolvimento da citometria de fluxo</label></div></div>
+                    <div class="questao"><p>2. A transição da hematologia de uma ciência puramente descritiva para uma disciplina quantitativa foi possível graças à criação de qual dispositivo?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Microscópio de Athanasius Kircher</label><label><input type="radio" name="q2" value="b"> b) Hemocitômetro (Câmara de Neubauer)</label><label><input type="radio" name="q2" value="c"> c) Contador baseado em citometria de fluxo</label><label><input type="radio" name="q2" value="d"> d) Algoritmo de Inteligência Artificial</label></div></div>
+                    <div class="questao"><p>3. Com a revolução da automação, um novo tipo de risco se tornou proeminente nos laboratórios. Que risco é esse?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Aumento de acidentes com pipetagem oral</label><label><input type="radio" name="q3" value="b"> b) Erro sistemático em larga escala</label><label><input type="radio" name="q3" value="c"> c) Contaminação por descarte inadequado</label><label><input type="radio" name="q3" value="d"> d) Variabilidade entre observadores</label></div></div>
+                    <div class="questao"><p>4. Quem foi o pioneiro a usar o microscópio para diagnóstico, conectando a observação do sangue a princípios de controle de infecção?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Paracelsus</label><label><input type="radio" name="q4" value="b"> b) Karl Landsteiner</label><label><input type="radio" name="q4" value="c"> c) Wallace Coulter</label><label><input type="radio" name="q4" value="d"> d) Athanasius Kircher</label></div></div>
+                    <div class="questao"><p>5. A era moderna da hematologia digital e IA, apesar dos benefícios, introduz novos desafios. Qual das opções abaixo é um risco associado a essa nova era?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Aumento do tempo para obter resultados</label><label><input type="radio" name="q5" value="b"> b) Necessidade de pipetagem com a boca</label><label><input type="radio" name="q5" value="c"> c) Perda de proficiência em microscopia manual pela equipe (de-skilling)</label><label><input type="radio" name="q5" value="d"> d) Impossibilidade de compartilhar resultados remotamente</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 1: Evolução Histórica da Hematologia Laboratorial e Seus Métodos.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'c', q2: 'b', q3: 'b', q4: 'd', q5: 'c'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

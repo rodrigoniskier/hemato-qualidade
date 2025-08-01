@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 11: Qualidade Pré-analítica</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 11: Qualidade Pré-analítica</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">➡️</span> Introdução</a></li>
+                <li><a href="#processos"><span class="icon">🔄</span> Processos Pré-analíticos</a></li>
+                <li><a href="#variaveis"><span class="icon">⚠️</span> Variáveis e Impactos</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>➡️ Capítulo 11: Qualidade Pré-analítica em Hematologia</h1>
+            <p class="subtitulo">A fase que engloba todos os processos antes da análise e é a fonte da maioria dos erros laboratoriais.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. A Fase Mais Crítica</h2>
+            <p>A fase pré-analítica engloba todos os processos desde a solicitação do exame pelo médico até o momento em que a amostra está pronta para ser analisada no equipamento. Estatisticamente, esta é a fase <strong>responsável pela grande maioria dos erros laboratoriais</strong>.</p>
+            <p>Um erro nesta etapa inicial invalida todo o esforço e tecnologia aplicados nas fases seguintes. Portanto, o controle rigoroso dos processos pré-analíticos é essencial para a segurança do paciente e a credibilidade do laboratório.</p>
+        </section>
+        
+        <section id="processos" class="content-section">
+            <h2>🔄 2. Coleta, Transporte, Armazenamento e Processamento</h2>
+            <p>Cada etapa do caminho da amostra, da veia do paciente ao analisador, é um ponto de controle crítico.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Coleta</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>A coleta correta é a fundação de um bom resultado. Os pontos cruciais incluem:</p>
+                        <ul>
+                            <li><strong>Identificação do Paciente:</strong> A checagem inequívoca da identidade do paciente é o passo mais importante para evitar trocas de amostra.</li>
+                            <li><strong>Anticoagulante Correto:</strong> Uso de EDTA para hemograma (preserva a morfologia celular) e Citrato de Sódio para testes de coagulação.</li>
+                            <li><strong>Ordem dos Tubos:</strong> Seguir a ordem correta de coleta para evitar contaminação cruzada de aditivos entre os tubos.</li>
+                            <li><strong>Homogeneização:</strong> A homogeneização adequada por inversão suave (e não agitação vigorosa) é vital para garantir a mistura do sangue com o anticoagulante e evitar a formação de microcoágulos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Transporte e Armazenamento</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>As amostras devem ser transportadas e armazenadas em condições que preservem a integridade celular. O armazenamento prolongado em temperatura ambiente pode causar alterações morfológicas e numéricas nas células, como o inchaço dos eritrócitos e a degeneração dos leucócitos.</p>
+                    </div>
+                </div>
+            </div>
+             <div class="acordeao">
+                <div class="acordeao-titulo">Processamento</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>A centrifugação, especialmente para testes de coagulação, deve ter tempo e velocidade padronizados para garantir a obtenção de um plasma pobre em plaquetas adequado para a análise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="variaveis" class="content-section">
+            <h2>⚠️ 3. Variáveis Pré-analíticas e o Impacto nos Resultados</h2>
+            <p>Diversas variáveis, tanto fisiológicas quanto de procedimento, podem afetar drasticamente os resultados hematológicos.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Principais Variáveis Interferentes</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Garroteamento Prolongado:</strong> Manter o garrote por mais de 1 minuto pode causar <strong>hemoconcentração</strong>, aumentando falsamente a contagem de células e o hematócrito.</li>
+                            <li><strong>Coleta em Braço com Infusão Intravenosa:</strong> Coletar sangue de um membro que está recebendo soro ou medicamentos pode causar <strong>hemodiluição</strong>, diminuindo falsamente os resultados.</li>
+                            <li><strong>Jejum e Exercício Físico:</strong> Podem causar alterações fisiológicas temporárias em alguns parâmetros.</li>
+                            <li><strong>Hemólise:</strong> A quebra dos eritrócitos, geralmente por coleta traumática ou agitação vigorosa, pode interferir em múltiplos testes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 4. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Fase Pré-analítica</div>
+                        <div class="flashcard-verso">Todos os processos desde a solicitação do exame até a amostra estar pronta para análise. É a principal fonte de erros laboratoriais.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">EDTA</div>
+                        <div class="flashcard-verso">Anticoagulante de escolha para o hemograma (tubo de tampa roxa), pois preserva a morfologia das células sanguíneas.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Hemoconcentração</div>
+                        <div class="flashcard-verso">Aumento falso da concentração de componentes do sangue, geralmente causado por garroteamento prolongado (> 1 minuto).</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Hemodiluição</div>
+                        <div class="flashcard-verso">Diminuição falsa da concentração de componentes do sangue, geralmente por coleta em braço com acesso venoso para infusão.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Hemólise</div>
+                        <div class="flashcard-verso">Destruição dos eritrócitos, que libera seu conteúdo e pode interferir nos resultados. Frequentemente causada por erros na coleta.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 5. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre a fase pré-analítica.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Qual é a principal fonte de erros em um laboratório de análises clínicas?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Fase analítica (equipamentos)</label><label><input type="radio" name="q1" value="b"> b) Fase pós-analítica (liberação de laudos)</label><label><input type="radio" name="q1" value="c"> c) Fase pré-analítica (coleta, transporte, etc.)</label><label><input type="radio" name="q1" value="d"> d) Erros de digitação pelo administrativo</label></div></div>
+                    <div class="questao"><p>2. Manter o garrote no braço do paciente por mais de um minuto durante a coleta de sangue pode causar qual tipo de erro?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Hemodiluição</label><label><input type="radio" name="q2" value="b"> b) Hemoconcentração</label><label><input type="radio" name="q2" value="c"> c) Hemólise</label><label><input type="radio" name="q2" value="d"> d) Coagulação da amostra</label></div></div>
+                    <div class="questao"><p>3. Qual anticoagulante é o padrão-ouro para a realização de hemogramas, pois preserva melhor a morfologia celular?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Citrato de Sódio</label><label><input type="radio" name="q3" value="b"> b) Heparina</label><label><input type="radio" name="q3" value="c"> c) Fluoreto de Sódio</label><label><input type="radio" name="q3" value="d"> d) EDTA</label></div></div>
+                    <div class="questao"><p>4. Coletar uma amostra de sangue de um braço onde o paciente está recebendo soro intravenoso é um erro grave que leva a qual consequência?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Hemodiluição, com resultados falsamente baixos.</label><label><input type="radio" name="q4" value="b"> b) Hemoconcentração, com resultados falsamente altos.</label><label><input type="radio" name="q4" value="c"> c) Aumento da contagem de plaquetas.</label><label><input type="radio" name="q4" value="d"> d) Nenhuma, pois não afeta o resultado.</label></div></div>
+                    <div class="questao"><p>5. Após a coleta, o que deve ser feito com o tubo contendo anticoagulante para garantir a correta mistura e evitar a formação de coágulos?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Agitar vigorosamente por 30 segundos.</label><label><input type="radio" name="q5" value="b"> b) Deixar o tubo em repouso na vertical.</label><label><input type="radio" name="q5" value="c"> c) Homogeneizar por inversões suaves, de 8 a 10 vezes.</label><label><input type="radio" name="q5" value="d"> d) Aquecer o tubo para acelerar a mistura.</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 11: Qualidade Pré-analítica em Hematologia.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'c', q2: 'b', q3: 'd', q4: 'a', q5: 'c'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 8: Procedimentos Operacionais Padrão (POPs)</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 8: POPs</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">📄</span> Introdução</a></li>
+                <li><a href="#manipulacao"><span class="icon">🧪</span> Manipulação de Amostras</a></li>
+                <li><a href="#prevencao"><span class="icon">💉</span> Prevenção de Acidentes</a></li>
+                <li><a href="#descarte"><span class="icon">🗑️</span> Descarte de Resíduos</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>📄 Capítulo 8: Procedimentos Operacionais Padrão (POPs) em Hematologia</h1>
+            <p class="subtitulo">Garantindo a padronização, a qualidade e a segurança de todas as rotinas laboratoriais.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. O que são POPs?</h2>
+            <p>Os <strong>Procedimentos Operacionais Padrão (POPs)</strong> são documentos que descrevem detalhadamente cada rotina realizada no laboratório. Eles são a espinha dorsal da gestão da qualidade e da segurança.</p>
+            <p>O objetivo de um POP é garantir que todos os profissionais executem as tarefas da mesma maneira, minimizando erros, garantindo a rastreabilidade e assegurando a conformidade com as normas. Eles transformam o conhecimento tácito em um processo explícito e replicável.</p>
+        </section>
+        
+        <section id="manipulacao" class="content-section">
+            <h2>🧪 2. Recepção, Identificação e Manipulação de Amostras</h2>
+            <p>A fase pré-analítica é onde ocorre a maioria dos erros. POPs detalhados para esta fase são cruciais.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Recepção e Triagem</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>O POP deve definir claramente os passos para:</p>
+                        <ul>
+                            <li>Conferir a identificação do paciente no tubo e na requisição.</li>
+                            <li>Avaliar a qualidade da amostra (volume adequado, ausência de hemólise ou coágulos).</li>
+                            <li>Registrar a entrada da amostra no sistema do laboratório (LIS).</li>
+                            <li>Definir critérios claros para a rejeição de amostras inadequadas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Manipulação Segura</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>O POP deve especificar que procedimentos como abertura de tubos, aliquotagem e preparação de esfregaços devem ser realizados com o EPI adequado e, preferencialmente, dentro de uma <strong>Cabine de Segurança Biológica (CSB)</strong> para minimizar a exposição a aerossóis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prevencao" class="content-section">
+            <h2>💉 3. Prevenção de Acidentes com Material Perfurocortante</h2>
+            <p>A Norma Regulamentadora 32 (NR-32) exige que todo serviço de saúde elabore e implemente um Plano de Prevenção de Riscos de Acidentes com Materiais Perfurocortantes. Os POPs devem refletir este plano.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Diretrizes Fundamentais</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Proibição de Reencape:</strong> É estritamente proibido reencapar agulhas manualmente. Esta é uma das principais causas de acidentes.</li>
+                            <li><strong>Uso de Dispositivos de Segurança:</strong> O POP deve orientar a priorização do uso de materiais (agulhas, lancetas) com dispositivos de segurança integrados, que protegem a ponta após o uso.</li>
+                            <li><strong>Descarte Imediato:</strong> O descarte de todos os materiais perfurocortantes deve ser feito <strong>imediatamente após o uso</strong>, em coletores rígidos, resistentes à perfuração, localizados o mais próximo possível do ponto de uso.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="descarte" class="content-section">
+            <h2>🗑️ 4. Descarte Seguro de Resíduos (PGRSS)</h2>
+            <p>O gerenciamento de resíduos de serviços de saúde (PGRSS) é regulamentado pela RDC 222/2018 da ANVISA. A segregação correta na fonte geradora é o passo mais crítico e deve ser detalhada em um POP.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Grupos de Resíduos em Hematologia</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Grupo A (Infectantes):</strong> Sobras de amostras de sangue, bolsas de sangue, meios de cultura. Devem ser acondicionados em sacos brancos leitosos.</li>
+                            <li><strong>Grupo B (Químicos):</strong> Reagentes e produtos químicos perigosos.</li>
+                            <li><strong>Grupo D (Comuns):</strong> Resíduos administrativos, equiparados ao lixo doméstico.</li>
+                            <li><strong>Grupo E (Perfurocortantes):</strong> Agulhas, lâminas, vidraria quebrada. Devem ser acondicionados em caixas coletoras rígidas e resistentes (descarpacks).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 5. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">POP</div>
+                        <div class="flashcard-verso">Procedimento Operacional Padrão. Documento que descreve detalhadamente uma rotina para garantir padronização, qualidade e segurança.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Proibição de Reencape</div>
+                        <div class="flashcard-verso">Regra de segurança fundamental da NR-32. Proíbe reencapar agulhas manualmente para prevenir acidentes perfurocortantes.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">PGRSS</div>
+                        <div class="flashcard-verso">Plano de Gerenciamento de Resíduos de Serviços de Saúde. Regulamentado pela RDC 222/2018, define a segregação e o descarte corretos.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Grupo A (Resíduos)</div>
+                        <div class="flashcard-verso">Resíduos com risco biológico (infectantes), como sobras de amostras de sangue. Devem ser descartados em sacos brancos leitosos.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Grupo E (Resíduos)</div>
+                        <div class="flashcard-verso">Resíduos perfurocortantes, como agulhas, lâminas e vidraria quebrada. Devem ser descartados em coletores rígidos.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 6. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre POPs e procedimentos seguros.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Qual é o principal objetivo de um Procedimento Operacional Padrão (POP) no laboratório?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Apenas cumprir uma exigência burocrática da ANVISA.</label><label><input type="radio" name="q1" value="b"> b) Garantir que cada profissional execute a tarefa de sua própria maneira.</label><label><input type="radio" name="q1" value="c"> c) Garantir a padronização, a qualidade e a segurança das rotinas.</label><label><input type="radio" name="q1" value="d"> d) Aumentar a velocidade do processamento de amostras.</label></div></div>
+                    <div class="questao"><p>2. De acordo com as boas práticas de segurança, onde devem ser realizados procedimentos como a abertura de tubos e a aliquotagem de amostras?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Em qualquer bancada limpa do laboratório.</label><label><input type="radio" name="q2" value="b"> b) Preferencialmente, dentro de uma Cabine de Segurança Biológica (CSB).</label><label><input type="radio" name="q2" value="c"> c) Na sala de descanso, para maior conforto.</label><label><input type="radio" name="q2" value="d"> d) Próximo a uma janela aberta para ventilação.</label></div></div>
+                    <div class="questao"><p>3. A NR-32 estabelece uma regra fundamental para a prevenção de acidentes com agulhas. Qual é essa regra?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Reencapar as agulhas com as duas mãos cuidadosamente.</label><label><input type="radio" name="q3" value="b"> b) Descartar as agulhas no lixo comum.</label><label><input type="radio" name="q3" value="c"> c) A proibição estrita de reencapar agulhas manualmente.</label><label><input type="radio" name="q3" value="d"> d) Deixar as agulhas sobre a bancada para descarte posterior.</label></div></div>
+                    <div class="questao"><p>4. Sobras de amostras de sangue e bolsas de sangue rejeitadas devem ser descartadas em qual grupo de resíduos, segundo o PGRSS?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Grupo D (Comum)</label><label><input type="radio" name="q4" value="b"> b) Grupo B (Químico)</label><label><input type="radio" name="q4" value="c"> c) Grupo E (Perfurocortante)</label><label><input type="radio" name="q4" value="d"> d) Grupo A (Infectante)</label></div></div>
+                    <div class="questao"><p>5. Lâminas de vidro e agulhas usadas devem ser descartadas em qual tipo de recipiente?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Em um saco plástico branco leitoso.</label><label><input type="radio" name="q5" value="b"> b) Em um coletor rígido, resistente à perfuração (caixa para perfurocortantes).</label><label><input type="radio" name="q5" value="c"> c) No lixo comum, junto com papéis de escritório.</label><label><input type="radio" name="q5" value="d"> d) Em um recipiente para resíduos químicos.</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 8: Procedimentos Operacionais Padrão (POPs) em Hematologia.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'c', q2: 'b', q3: 'c', q4: 'd', q5: 'b'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

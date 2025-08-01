@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 14: Gestão de Não Conformidades</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 14: Não Conformidades</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">⚠️</span> Introdução</a></li>
+                <li><a href="#identificacao"><span class="icon">🔎</span> Identificação e Registro</a></li>
+                <li><a href="#investigacao"><span class="icon">🤔</span> Metodologias de Investigação</a></li>
+                <li><a href="#acoes"><span class="icon">🛠️</span> Ações Corretivas e Preventivas</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>⚠️ Capítulo 14: Gestão de Não Conformidades e Ações Corretivas</h1>
+            <p class="subtitulo">Transformando erros e desvios em oportunidades de melhoria contínua.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. O que é uma Não Conformidade?</h2>
+            <p>Uma <strong>não conformidade</strong> é qualquer desvio em relação a um requisito pré-estabelecido. Esse requisito pode ser técnico (de um POP), regulatório (de uma norma da ANVISA) ou do próprio sistema de gestão da qualidade do laboratório.</p>
+            <p>Gerenciar não conformidades não é sobre encontrar culpados, mas sim sobre entender as falhas nos processos para fortalecê-los e evitar que os mesmos erros aconteçam novamente. É um pilar da melhoria contínua.</p>
+        </section>
+        
+        <section id="identificacao" class="content-section">
+            <h2>🔎 2. Identificação, Registro e Análise</h2>
+            <p>O primeiro passo para corrigir um problema é reconhecer que ele existe e documentá-lo adequadamente.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Como Identificar?</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>Não conformidades podem ser detectadas de várias formas:</p>
+                        <ul>
+                            <li>Resultados inaceitáveis no controle de qualidade (interno ou externo).</li>
+                            <li>Reclamações de clientes (médicos ou pacientes).</li>
+                            <li>Auditorias internas ou externas.</li>
+                            <li>Acidentes de trabalho.</li>
+                            <li>Observação de um desvio de procedimento pela equipe.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Registro e Análise da Causa Raiz</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>Quando um erro ou desvio é detectado, ele deve ser <strong>formalmente registrado</strong> em um formulário apropriado. Simplesmente corrigir o problema imediato não é suficiente.</p>
+                         <p>O passo mais crítico é investigar para determinar a <strong>causa raiz</strong> do problema. Corrigir apenas o sintoma (o erro visível) permite que a causa fundamental persista e o problema se repita no futuro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="investigacao" class="content-section">
+            <h2>🤔 3. Metodologias de Investigação da Causa Raiz</h2>
+            <p>Existem várias ferramentas da qualidade que ajudam a investigar um problema de forma estruturada para encontrar sua verdadeira origem.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">5 Porquês</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>É uma técnica simples que consiste em perguntar "Por quê?" repetidamente (geralmente cinco vezes) para explorar as relações de causa e efeito subjacentes a um problema. Cada resposta forma a base para a próxima pergunta, aprofundando a análise até chegar à causa fundamental.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Diagrama de Ishikawa (Espinha de Peixe)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>É uma ferramenta visual que organiza as possíveis causas de um problema em categorias, geralmente os <strong>6Ms</strong>:</p>
+                        <ul>
+                            <li><strong>Método:</strong> O procedimento estava incorreto?</li>
+                            <li><strong>Mão de obra:</strong> Faltou treinamento?</li>
+                            <li><strong>Máquina:</strong> O equipamento falhou?</li>
+                            <li><strong>Material:</strong> O reagente estava com problema?</li>
+                            <li><strong>Meio ambiente:</strong> A temperatura da sala estava inadequada?</li>
+                            <li><strong>Medida:</strong> A calibração estava vencida?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">FMEA (Análise de Modos de Falha e seus Efeitos)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>FMEA é uma metodologia <strong>proativa</strong>, diferente das outras que são reativas. Em vez de investigar um problema que já ocorreu, a FMEA analisa um processo para identificar modos de falha <strong>potenciais</strong>, suas causas e efeitos, e então priorizar ações para <strong>prevenir</strong> que essas falhas ocorram.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="acoes" class="content-section">
+            <h2>🛠️ 4. Implementação de Ações Corretivas e Preventivas</h2>
+            <p>Após encontrar a causa raiz, é preciso agir. As ações podem ser corretivas ou preventivas.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Ação Corretiva vs. Ação Preventiva</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p><strong>Ação Corretiva:</strong> É a ação tomada para eliminar a causa de uma não conformidade que <strong>já ocorreu</strong>, com o objetivo de prevenir sua <strong>repetição</strong>.</p>
+                        <p><strong>Ação Preventiva:</strong> É a ação tomada para eliminar a causa de uma não conformidade <strong>potencial</strong>, ou seja, para evitar que um problema ocorra pela primeira vez. É o resultado de uma análise proativa, como a FMEA.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 5. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Não Conformidade</div>
+                        <div class="flashcard-verso">Qualquer desvio em relação a um requisito pré-estabelecido, seja ele técnico, regulatório ou do sistema da qualidade.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Causa Raiz</div>
+                        <div class="flashcard-verso">A causa fundamental de um problema. Corrigi-la impede que o problema se repita.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Diagrama de Ishikawa</div>
+                        <div class="flashcard-verso">Ferramenta visual (Espinha de Peixe) que organiza as possíveis causas de um problema nas categorias 6M (Método, Mão de obra, etc.).</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Ação Corretiva</div>
+                        <div class="flashcard-verso">Ação para eliminar a causa de um problema que JÁ OCORREU, para evitar que ele se repita.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Ação Preventiva</div>
+                        <div class="flashcard-verso">Ação proativa para eliminar a causa de um problema POTENCIAL, para evitar que ele ocorra.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 6. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre gestão de não conformidades.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Um resultado do controle de qualidade fora dos limites aceitáveis é um exemplo de:</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Ação Corretiva</label><label><input type="radio" name="q1" value="b"> b) Não Conformidade</label><label><input type="radio" name="q1" value="c"> c) Causa Raiz</label><label><input type="radio" name="q1" value="d"> d) Ação Preventiva</label></div></div>
+                    <div class="questao"><p>2. Qual ferramenta da qualidade utiliza a técnica de perguntar "Por quê?" repetidamente para encontrar a origem de um problema?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Diagrama de Ishikawa</label><label><input type="radio" name="q2" value="b"> b) FMEA</label><label><input type="radio" name="q2" value="c"> c) 5 Porquês</label><label><input type="radio" name="q2" value="d"> d) Gráfico de Levey-Jennings</label></div></div>
+                    <div class="questao"><p>3. A organização das possíveis causas de um problema nas categorias "Método, Mão de obra, Máquina, Material, Meio ambiente e Medida" é a base de qual metodologia?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) 5 Porquês</label><label><input type="radio" name="q3" value="b"> b) FMEA</label><label><input type="radio" name="q3" value="c"> c) Ação Corretiva</label><label><input type="radio" name="q3" value="d"> d) Diagrama de Ishikawa</label></div></div>
+                    <div class="questao"><p>4. Após um erro de identificação de amostra, o laboratório implementa um novo treinamento para a equipe de coleta. Esta é uma:</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Ação Corretiva</label><label><input type="radio" name="q4" value="b"> b) Ação Preventiva</label><label><input type="radio" name="q4" value="c"> c) Não Conformidade</label><label><input type="radio" name="q4" value="d"> d) Causa Raiz</label></div></div>
+                    <div class="questao"><p>5. Qual das seguintes metodologias é considerada PROATIVA, pois busca identificar e prevenir falhas antes que elas aconteçam?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) 5 Porquês</label><label><input type="radio" name="q5" value="b"> b) Diagrama de Ishikawa</label><label><input type="radio" name="q5" value="c"> c) FMEA</label><label><input type="radio" name="q5" value="d"> d) Análise de Causa Raiz</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 14: Gestão de Não Conformidades e Ações Corretivas.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'b', q2: 'c', q3: 'd', q4: 'a', q5: 'c'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

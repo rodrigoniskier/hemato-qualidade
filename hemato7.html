@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 7: Equipamentos de Proteção (EPC & EPI)</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 7: EPC e EPI</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">🛡️</span> Introdução</a></li>
+                <li><a href="#epc"><span class="icon">🔬</span> Equipamentos de Proteção Coletiva</a></li>
+                <li><a href="#epi"><span class="icon">👨‍🔬</span> Equipamentos de Proteção Individual</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>🛡️ Capítulo 7: Equipamentos de Proteção Coletiva e Individual</h1>
+            <p class="subtitulo">A primeira linha de defesa entre o profissional e o agente de risco.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Introdução: Barreiras Primárias</h2>
+            <p>Os Equipamentos de Proteção Coletiva (EPC) e Individual (EPI) constituem as <strong>barreiras de contenção primárias</strong>. Elas são a primeira e mais direta linha de defesa que se interpõe entre o profissional de laboratório e o agente de risco, seja ele biológico, químico ou físico.</p>
+            <p>O uso correto e racional desses equipamentos é um pilar indispensável para a segurança e a prevenção de acidentes e contaminações.</p>
+        </section>
+        
+        <section id="epc" class="content-section">
+            <h2>🔬 2. Equipamentos de Proteção Coletiva (EPC)</h2>
+            <p>Os EPCs são projetados para proteger todos os indivíduos no ambiente de trabalho, minimizando ou eliminando a exposição a riscos na fonte.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Cabines de Segurança Biológica (CSB)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>São os EPCs mais importantes para a contenção de <strong>aerossóis infecciosos</strong>. A <strong>CSB Classe II</strong>, utilizada na maioria dos laboratórios clínicos, protege o operador, o ambiente e a amostra, através de um fluxo de ar laminar filtrado com filtros HEPA. Procedimentos como agitação, homogeneização e pipetagem de amostras devem ser realizados dentro de uma CSB.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Capelas de Exaustão Química</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>Diferentes das CSBs, são projetadas para proteger o usuário de <strong>vapores químicos tóxicos</strong>, exaurindo o ar contaminado para fora do edifício. Elas <strong>não oferecem proteção contra agentes biológicos</strong>, pois não possuem filtros HEPA e o fluxo de ar não protege a amostra.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Centrífugas com Biossegurança</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <p>A centrifugação é um procedimento de alto risco para a geração de aerossóis. Centrífugas seguras possuem rotores ou caçapas com <strong>tampas de vedação (safety cups)</strong> que contêm os aerossóis em caso de quebra de tubo. Os rotores devem ser carregados e descarregados dentro de uma CSB.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="epi" class="content-section">
+            <h2>👨‍🔬 3. Equipamentos de Proteção Individual (EPI) e Seu Uso Racional</h2>
+            <p>O uso de EPI é obrigatório e deve ser baseado na avaliação de risco de cada procedimento. O uso racional implica em utilizar o EPI correto para a tarefa e seguir a sequência adequada de paramentação e desparamentação para evitar a autocontaminação.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">Principais EPIs</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Jalecos:</strong> Devem ser de mangas longas, preferencialmente de algodão, e mantidos fechados. Devem ser usados <strong>exclusivamente</strong> dentro da área laboratorial.</li>
+                            <li><strong>Luvas:</strong> Essenciais para todo manuseio de material biológico. Devem ser trocadas sempre que contaminadas ou danificadas e descartadas antes de sair do laboratório.</li>
+                            <li><strong>Proteção Ocular e Facial:</strong> Óculos de segurança ou protetores faciais (<em>face shields</em>) são mandatórios quando há risco de respingos de sangue ou outros fluidos.</li>
+                            <li><strong>Máscaras e Respiradores:</strong> Máscaras cirúrgicas protegem contra gotículas. Respiradores (como N95 ou PFF2) são necessários para procedimentos com alto potencial de geração de aerossóis de patógenos de transmissão respiratória.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 4. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Barreiras Primárias</div>
+                        <div class="flashcard-verso">Equipamentos (EPC e EPI) que formam a primeira linha de defesa, interpondo-se diretamente entre o profissional e o risco.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">CSB Classe II</div>
+                        <div class="flashcard-verso">O EPC mais importante para conter aerossóis biológicos. Protege o operador, o ambiente e a amostra.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Capela de Exaustão</div>
+                        <div class="flashcard-verso">EPC que protege o usuário de vapores químicos tóxicos. Não protege contra agentes biológicos.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Safety Cups</div>
+                        <div class="flashcard-verso">Tampas de vedação para rotores de centrífugas que contêm aerossóis em caso de quebra de tubo, um EPC crucial.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Respirador N95/PFF2</div>
+                        <div class="flashcard-verso">EPI necessário para proteção contra a inalação de aerossóis de patógenos de transmissão respiratória.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 5. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre EPCs e EPIs.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Qual equipamento é considerado a barreira de contenção primária mais importante para proteger o profissional contra aerossóis infecciosos?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Capela de Exaustão Química</label><label><input type="radio" name="q1" value="b"> b) Centrífuga com tampa</label><label><input type="radio" name="q1" value="c"> c) Cabine de Segurança Biológica (CSB) Classe II</label><label><input type="radio" name="q1" value="d"> d) Autoclave</label></div></div>
+                    <div class="questao"><p>2. Um profissional precisa manipular um reagente químico que libera vapores tóxicos. Qual EPC ele deve utilizar?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) Cabine de Segurança Biológica Classe II</label><label><input type="radio" name="q2" value="b"> b) Capela de Exaustão Química</label><label><input type="radio" name="q2" value="c"> c) Centrífuga com safety cups</label><label><input type="radio" name="q2" value="d"> d) Protetor facial (face shield)</label></div></div>
+                    <div class="questao"><p>3. As "Safety cups" são um dispositivo de segurança associado a qual equipamento para prevenir a geração de aerossóis?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Agitador de tubos</label><label><input type="radio" name="q3" value="b"> b) Autoclave</label><label><input type="radio" name="q3" value="c"> c) Centrífuga</label><label><input type="radio" name="q3" value="d"> d) Microscópio</label></div></div>
+                    <div class="questao"><p>4. Para se proteger de um patógeno de alta transmissibilidade por via respiratória (aerossóis), qual EPI é o mais indicado para a proteção respiratória?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) Máscara cirúrgica simples</label><label><input type="radio" name="q4" value="b"> b) Protetor facial (face shield)</label><label><input type="radio" name="q4" value="c"> c) Respirador N95 ou PFF2</label><label><input type="radio" name="q4" value="d"> d) Apenas óculos de proteção</label></div></div>
+                    <div class="questao"><p>5. Qual é a regra fundamental sobre o uso de jalecos no ambiente laboratorial?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Pode ser de manga curta para maior conforto.</label><label><input type="radio" name="q5" value="b"> b) Deve ser usado exclusivamente dentro da área laboratorial e mantido fechado.</label><label><input type="radio" name="q5" value="c"> c) Pode ser usado aberto em áreas administrativas.</label><label><input type="radio" name="q5" value="d"> d) Só é necessário para manipular produtos químicos.</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 7: Equipamentos de Proteção Coletiva e Individual.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'c', q2: 'b', q3: 'c', q4: 'c', q5: 'b'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>

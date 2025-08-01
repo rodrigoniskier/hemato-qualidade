@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 20: Protocolos e POPs Exemplares</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 20: POPs Exemplares</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">📄</span> Introdução</a></li>
+                <li><a href="#modelos"><span class="icon">📋</span> Modelos de POPs</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>📄 Capítulo 20: Protocolos e POPs Exemplares</h1>
+            <p class="subtitulo">Modelos práticos e comentados de procedimentos essenciais para a rotina de hematologia.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Da Teoria à Prática</h2>
+            <p>Esta seção fornece modelos práticos e comentados de Procedimentos Operacionais Padrão (POPs) que são essenciais para a rotina de um laboratório de hematologia. O objetivo é servir como um recurso prático, contendo ferramentas prontas para uso ou adaptação.</p>
+            <p>Lembre-se que cada laboratório deve adaptar esses modelos à sua realidade específica, incluindo seus equipamentos, reagentes e fluxo de trabalho.</p>
+        </section>
+        
+        <section id="modelos" class="content-section">
+            <h2>📋 2. Modelos Comentados de POPs</h2>
+            <p>Clique em cada item para expandir e ver um modelo simplificado do procedimento.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">POP para Coleta de Sangue Venoso</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <h3>Objetivo:</h3><p>Padronizar a coleta de sangue venoso para garantir a qualidade da amostra.</p>
+                        <h3>Procedimento:</h3>
+                        <ol>
+                            <li>Confirmar a identidade do paciente (nome completo e data de nascimento).</li>
+                            <li>Higienizar as mãos e calçar luvas.</li>
+                            <li>Selecionar o local da punção e aplicar o garrote (máx. 1 minuto).</li>
+                            <li>Realizar a antissepsia do local com álcool 70%.</li>
+                            <li>Realizar a punção venosa e coletar os tubos na ordem correta.</li>
+                            <li>Soltar o garrote assim que o sangue começar a fluir.</li>
+                            <li>Retirar a agulha e ativar o dispositivo de segurança.</li>
+                            <li>Homogeneizar os tubos com anticoagulante por inversão suave (8-10 vezes).</li>
+                            <li>Descartar o material perfurocortante em coletor apropriado.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">POP para Recebimento e Triagem de Amostras</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <h3>Objetivo:</h3><p>Garantir que apenas amostras adequadas sejam aceitas para análise.</p>
+                         <h3>Procedimento:</h3>
+                         <ol>
+                            <li>Conferir se a identificação no tubo corresponde à requisição.</li>
+                            <li>Verificar o volume da amostra no tubo.</li>
+                            <li>Inspecionar visualmente a amostra em busca de hemólise ou coágulos.</li>
+                            <li>Registrar a entrada da amostra no Sistema de Informação Laboratorial (LIS).</li>
+                            <li>Rejeitar a amostra se algum critério não for atendido, registrar o motivo da rejeição e comunicar o setor responsável para uma nova coleta.</li>
+                         </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">POP para Realização de Hemograma Automatizado</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <h3>Objetivo:</h3><p>Padronizar a operação do analisador hematológico.</p>
+                         <h3>Procedimento:</h3>
+                         <ol>
+                            <li>Ligar o equipamento e aguardar o ciclo de inicialização (startup).</li>
+                            <li>Analisar os controles de qualidade (baixo, normal, alto) e verificar se os resultados estão dentro dos limites aceitáveis.</li>
+                            <li>Homogeneizar a amostra do paciente por inversão.</li>
+                            <li>Apresentar a amostra ao equipamento para análise.</li>
+                            <li>Aguardar o resultado e verificar a presença de alertas (flags).</li>
+                            <li>Realizar os procedimentos de manutenção diária ao final da rotina.</li>
+                         </ol>
+                    </div>
+                </div>
+            </div>
+
+             <div class="acordeao">
+                <div class="acordeao-titulo">POP para Limpeza e Desinfecção de Bancadas</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                         <h3>Objetivo:</h3><p>Prevenir a contaminação cruzada e garantir um ambiente de trabalho seguro.</p>
+                         <h3>Procedimento (Limpeza Concorrente):</h3>
+                         <ol>
+                            <li>Remover todos os materiais da bancada.</li>
+                            <li>Realizar a limpeza da superfície com água e sabão para remover a matéria orgânica.</li>
+                            <li>Enxaguar e secar a superfície com papel toalha.</li>
+                            <li>Aplicar o desinfetante (ex: álcool 70% ou hipoclorito de sódio 1%) e espalhar por toda a superfície.</li>
+                            <li>Aguardar o tempo de contato recomendado pelo fabricante do desinfetante.</li>
+                            <li>Deixar secar naturalmente ou remover o excesso se necessário.</li>
+                            <li>Realizar este procedimento ao final de cada turno e sempre que houver derramamento de material biológico.</li>
+                         </ol>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 20: Protocolos e POPs Exemplares.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

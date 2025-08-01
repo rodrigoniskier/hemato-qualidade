@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pós-Graduação em Hematologia | Aula 4: Ética, Legislação e Regulamentação</title>
+    <style>
+        /* Reset e Estilos Globais */
+        :root {
+            --cor-fundo: #FFFFFF;
+            --cor-texto: #212529;
+            --cor-azul: #0057B8;
+            --cor-verde: #28A745;
+            --cor-amarelo: #FFD700;
+            --cor-borda: #dee2e6;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-sucesso: #d4edda;
+            --cor-erro: #f8d7da;
+            --cor-texto-sucesso: #155724;
+            --cor-texto-erro: #721c24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+
+        /* Estrutura Principal */
+        .menu-lateral {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            border-right: 1px solid var(--cor-borda);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .conteudo-principal {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabeçalho do Menu */
+        .menu-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.5rem;
+            color: var(--cor-azul);
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Navegação do Menu */
+        .menu-nav ul {
+            list-style: none;
+        }
+
+        .menu-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #495057;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .menu-nav li a:hover,
+        .menu-nav li a.active {
+            background-color: var(--cor-azul);
+            color: var(--cor-fundo);
+        }
+        
+        .menu-nav li a .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Conteúdo da Página */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--cor-azul);
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--cor-amarelo);
+            padding-bottom: 10px;
+        }
+
+        header p.subtitulo {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--cor-azul);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        h3 {
+             color: var(--cor-azul);
+             margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #343a40;
+        }
+        
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        /* Componentes Interativos */
+        .acordeao {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .acordeao-titulo {
+            background-color: #f1f3f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acordeao-titulo:hover {
+            background-color: #e9ecef;
+        }
+
+        .acordeao-titulo::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-titulo.active::after {
+            transform: rotate(45deg);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--cor-fundo);
+            padding: 0 20px;
+        }
+        
+        .acordeao-conteudo-interno {
+             padding: 20px 0;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 var(--cor-sombra);
+            border-radius: 10px;
+        }
+
+        .flashcard.virado .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-frente, .flashcard-verso {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--cor-borda);
+        }
+
+        .flashcard-frente {
+            background-color: var(--cor-amarelo);
+            color: var(--cor-texto);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .flashcard-verso {
+            background-color: var(--cor-azul);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            border: 1px solid var(--cor-borda);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fdfdff;
+        }
+        
+        .questao {
+            margin-bottom: 25px;
+        }
+        
+        .questao p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .alternativas label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .alternativas label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .alternativas input {
+            margin-right: 10px;
+        }
+        
+        .btn-quiz {
+            display: inline-block;
+            background-color: var(--cor-verde);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-quiz:hover {
+            background-color: #218838;
+        }
+        
+        #resultado-quiz {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .rodape-pagina {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--cor-amarelo);
+            text-align: center;
+        }
+        
+        .rodape-pagina p {
+            margin: 0;
+            line-height: 1.4;
+            color: #6c757d;
+        }
+
+        /* Menu Hambúrguer para Responsividade */
+        .btn-hamburger {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--cor-azul);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .menu-lateral {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 250px;
+            }
+            
+            .menu-lateral.aberto {
+                transform: translateX(0);
+            }
+
+            .conteudo-principal {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn-hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-hamburger" id="btnHamburger">☰</button>
+
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-header">
+            <h1>🩸 Hematologia</h1>
+            <p>Capítulo 4: Ética e Legislação</p>
+        </div>
+        <nav class="menu-nav">
+            <ul>
+                <li><a href="#introducao" class="active"><span class="icon">⚖️</span> Introdução</a></li>
+                <li><a href="#etica"><span class="icon">❤️</span> Princípios Éticos</a></li>
+                <li><a href="#regulamentacao"><span class="icon">📜</span> Arcabouço Regulatório</a></li>
+                <li><a href="#responsabilidade"><span class="icon">👨‍⚖️</span> Responsabilidade do Gestor</a></li>
+                <li><a href="#flashcards"><span class="icon">🗂️</span> Flashcards</a></li>
+                <li><a href="#quiz"><span class="icon">✅</span> Quiz</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="conteudo-principal">
+        <header>
+            <h1>⚖️ Capítulo 4: Ética, Legislação e Regulamentação</h1>
+            <p class="subtitulo">Navegando na complexa matriz de obrigações que regem a prática laboratorial.</p>
+        </header>
+
+        <section id="introducao" class="content-section active">
+            <h2>🎓 1. Introdução</h2>
+            <p>A prática da biossegurança e do controle de qualidade em um laboratório de hematologia opera dentro de uma complexa matriz de obrigações éticas, leis nacionais e padrões internacionais. Esses frameworks não são meros exercícios burocráticos; eles constituem o alicerce sobre o qual a segurança do paciente, a proteção do trabalhador e a integridade dos resultados são construídos.</p>
+            <p>Para o gestor laboratorial, a navegação competente por este cenário regulatório não é opcional — é uma responsabilidade fundamental que acarreta implicações civis, penais e administrativas.</p>
+        </section>
+        
+        <section id="etica" class="content-section">
+            <h2>❤️ 2. Princípios Éticos em Biossegurança Laboratorial</h2>
+            <p>Antes das leis, existem os princípios éticos que fornecem o "porquê" por trás das regras. A biossegurança está intrinsecamente ligada aos pilares da bioética.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">Pilares da Bioética</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Não-Maleficência (<em>Primum non nocere</em>):</strong> O dever primordial de evitar danos aos funcionários, pacientes e à comunidade. É a base de todas as práticas de contenção.</li>
+                            <li><strong>Beneficência:</strong> A obrigação de agir no melhor interesse do paciente, fornecendo resultados exatos, precisos e clinicamente úteis.</li>
+                            <li><strong>Justiça:</strong> Garantir que todos os trabalhadores recebam o mesmo nível de proteção e que os riscos não sejam desproporcionalmente impostos à comunidade.</li>
+                            <li><strong>Autonomia:</strong> Respeitar o direito dos indivíduos de tomar decisões informadas, como o direito do trabalhador de ser informado sobre os riscos ocupacionais.</li>
+                             <li><strong>Confidencialidade e Sigilo:</strong> Proteger as informações do paciente, garantindo que os resultados sejam mantidos em sigilo e acessíveis apenas a pessoas autorizadas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="regulamentacao" class="content-section">
+            <h2>📜 3. O Arcabouço Regulatório Nacional</h2>
+            <p>No Brasil, a operação de laboratórios clínicos é rigorosamente regulamentada por um conjunto de normas de diferentes órgãos governamentais.</p>
+
+            <div class="acordeao">
+                <div class="acordeao-titulo">ANVISA - RDC 786/2023</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>É a norma sanitária mais importante para laboratórios clínicos, substituindo a histórica RDC 302/2005. Para os laboratórios de hematologia (Serviço Tipo III), a norma reforça a necessidade de um sistema de gestão da qualidade, com requisitos detalhados para todas as fases do processo (pré-analítica, analítica e pós-analítica).</p>
+                    </div>
+                </div>
+            </div>
+             <div class="acordeao">
+                <div class="acordeao-titulo">ANVISA - RDC 222/2018</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>Esta resolução estabelece as Boas Práticas de Gerenciamento dos Resíduos de Serviços de Saúde (PGRSS). É crucial para a correta segregação de resíduos infectantes (Grupo A), químicos (Grupo B) e perfurocortantes (Grupo E).</p>
+                    </div>
+                </div>
+            </div>
+             <div class="acordeao">
+                <div class="acordeao-titulo">MTE - Norma Regulamentadora 32 (NR-32)</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>É a principal norma de segurança e saúde do trabalhador em serviços de saúde. Seus pontos críticos incluem a exigência de um Programa de Gerenciamento de Riscos (PGR), a vacinação gratuita contra hepatite B, a proibição de adornos e a obrigatoriedade de um Plano de Prevenção de Acidentes com Perfurocortantes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="responsabilidade" class="content-section">
+            <h2>👨‍⚖️ 4. Responsabilidade do Gestor Laboratorial</h2>
+            <p>A confluência de todas essas normas éticas e legais recai sobre os ombros do gestor ou diretor do laboratório, que responde por sua implementação em três esferas distintas de responsabilidade.</p>
+            
+            <div class="acordeao">
+                <div class="acordeao-titulo">As Três Esferas de Responsabilidade</div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <ul>
+                            <li><strong>Responsabilidade Civil:</strong> Regida pelo Código de Defesa do Consumidor (CDC), a responsabilidade do laboratório por um erro de diagnóstico é <strong>objetiva</strong>, ou seja, independe da comprovação de culpa. Basta o erro e o dano para gerar o dever de indenizar.</li>
+                            <li><strong>Responsabilidade Penal:</strong> É sempre <strong>pessoal e subjetiva</strong>, exigindo comprovação de dolo ou culpa (negligência, imprudência ou imperícia). O gestor pode ser responsabilizado por omissão, como não fornecer EPIs adequados.</li>
+                            <li><strong>Responsabilidade Administrativa:</strong> Refere-se às sanções aplicadas pelos órgãos de fiscalização (ANVISA, Ministério do Trabalho, Conselhos Profissionais) pelo descumprimento de suas normas, podendo resultar em multas, interdição ou cassação da licença.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcards" class="content-section">
+            <h2>🗂️ 6. Flashcards: Termos-Chave</h2>
+            <p>Clique nos cartões para revelar as definições.</p>
+            <div class="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Não-Maleficência</div>
+                        <div class="flashcard-verso">Princípio ético fundamental: "Primeiro, não causar dano". É a base de todas as práticas de biossegurança.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">RDC 786/2023</div>
+                        <div class="flashcard-verso">Principal norma sanitária da ANVISA para laboratórios clínicos, focada no sistema de gestão da qualidade em todas as fases do processo.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">NR-32</div>
+                        <div class="flashcard-verso">Principal norma do Ministério do Trabalho para a segurança e saúde dos trabalhadores em serviços de saúde.</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Responsabilidade Objetiva</div>
+                        <div class="flashcard-verso">Na esfera civil, o laboratório responde por erros de diagnóstico independentemente da comprovação de culpa. Basta provar o erro e o dano.</div>
+                    </div>
+                </div>
+                 <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-frente">Responsabilidade por Omissão</div>
+                        <div class="flashcard-verso">Na esfera penal, o gestor pode ser responsabilizado por não agir para impedir um dano, como não fornecer EPIs ou treinamento.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz" class="content-section">
+            <h2>✅ 7. Quiz Rápido</h2>
+            <p>Teste seus conhecimentos sobre ética e legislação.</p>
+            <div class="quiz-container">
+                <form id="quiz-form">
+                    <div class="questao"><p>1. Qual princípio ético fundamental estabelece o dever de "primeiro, não causar dano" e serve como base para todas as práticas de biossegurança?</p><div class="alternativas"><label><input type="radio" name="q1" value="a"> a) Autonomia</label><label><input type="radio" name="q1" value="b"> b) Justiça</label><label><input type="radio" name="q1" value="c"> c) Beneficência</label><label><input type="radio" name="q1" value="d"> d) Não-Maleficência</label></div></div>
+                    <div class="questao"><p>2. Qual é a principal norma regulamentadora do Ministério do Trabalho e Emprego que dita as regras de segurança e saúde para trabalhadores de laboratórios?</p><div class="alternativas"><label><input type="radio" name="q2" value="a"> a) RDC 786/2023</label><label><input type="radio" name="q2" value="b"> b) NR-32</label><label><input type="radio" name="q2" value="c"> c) RDC 222/2018</label><label><input type="radio" name="q2" value="d"> d) ISO 15189</label></div></div>
+                    <div class="questao"><p>3. No Brasil, a responsabilidade civil de um laboratório por um erro de diagnóstico é considerada "objetiva". O que isso significa?</p><div class="alternativas"><label><input type="radio" name="q3" value="a"> a) Que o gestor só é punido se tiver a intenção de errar.</label><label><input type="radio" name="q3" value="b"> b) Que o laboratório tem o dever de indenizar o paciente pelo dano, independentemente da comprovação de culpa.</label><label><input type="radio" name="q3" value="c"> c) Que apenas o profissional que assinou o laudo pode ser responsabilizado.</label><label><input type="radio" name="q3" value="d"> d) Que a responsabilidade é apenas administrativa, com multas da ANVISA.</label></div></div>
+                    <div class="questao"><p>4. A correta segregação, acondicionamento e descarte de resíduos perfurocortantes (Grupo E) e infectantes (Grupo A) são exigências de qual regulamentação da ANVISA?</p><div class="alternativas"><label><input type="radio" name="q4" value="a"> a) RDC 222/2018 (PGRSS)</label><label><input type="radio" name="q4" value="b"> b) CLT</label><label><input type="radio" name="q4" value="c"> c) NR-32</label><label><input type="radio" name="q4" value="d"> d) RDC 786/2023</label></div></div>
+                    <div class="questao"><p>5. Um gestor de laboratório que não fornece EPIs adequados e um funcionário se contamina gravemente pode ser responsabilizado em qual esfera e por qual motivo?</p><div class="alternativas"><label><input type="radio" name="q5" value="a"> a) Apenas na esfera civil, por responsabilidade objetiva.</label><label><input type="radio" name="q5" value="b"> b) Apenas na esfera administrativa, com multa do conselho profissional.</label><label><input type="radio" name="q5" value="c"> c) Na esfera penal, por omissão, pois ele tem o dever legal de agir para impedir o dano.</label><label><input type="radio" name="q5" value="d"> d) Em nenhuma esfera, pois a culpa é exclusiva do funcionário por não ter comprado seu próprio EPI.</label></div></div>
+                    <button type="button" class="btn-quiz" id="btnVerificarQuiz">🚀 Verificar Respostas</button>
+                </form>
+                <div id="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <footer class="rodape-pagina">
+            <p>Fim do Capítulo 4: Ética, Legislação e Regulamentação.</p>
+            <p>Pós-Graduação em Hematologia Clínica.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script para menu hamburger
+            const btnHamburger = document.getElementById('btnHamburger');
+            const menuLateral = document.getElementById('menuLateral');
+            btnHamburger.addEventListener('click', () => {
+                menuLateral.classList.toggle('aberto');
+            });
+            document.querySelector('.conteudo-principal').addEventListener('click', () => {
+                if (menuLateral.classList.contains('aberto')) {
+                    menuLateral.classList.remove('aberto');
+                }
+            });
+
+            // Script para navegação entre seções
+            const linksMenu = document.querySelectorAll('.menu-nav a');
+            const contentSections = document.querySelectorAll('.content-section');
+            linksMenu.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.querySelector(targetId).classList.add('active');
+                    
+                    linksMenu.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (window.innerWidth <= 768) {
+                        menuLateral.classList.remove('aberto');
+                    }
+                });
+            });
+
+            // Script para o componente acordeão
+            const acordeoes = document.querySelectorAll('.acordeao-titulo');
+            acordeoes.forEach(acc => {
+                acc.addEventListener('click', () => {
+                    acc.classList.toggle('active');
+                    const content = acc.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Script para virar flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('virado');
+                });
+            });
+
+            // Script para o Quiz
+            const btnVerificarQuiz = document.getElementById('btnVerificarQuiz');
+            const quizForm = document.getElementById('quiz-form');
+            const resultadoQuiz = document.getElementById('resultado-quiz');
+
+            const gabarito = {
+                q1: 'd', q2: 'b', q3: 'b', q4: 'a', q5: 'c'
+            };
+
+            btnVerificarQuiz.addEventListener('click', () => {
+                let acertos = 0;
+                const totalQuestoes = Object.keys(gabarito).length;
+                
+                for (let i = 1; i <= totalQuestoes; i++) {
+                    const questao = 'q' + i;
+                    const respostaSelecionada = quizForm.querySelector(`input[name="${questao}"]:checked`);
+                    const alternativas = quizForm.querySelectorAll(`input[name="${questao}"]`);
+                    
+                    alternativas.forEach(input => {
+                        const parentLabel = input.parentElement;
+                        parentLabel.style.backgroundColor = '';
+                        parentLabel.style.color = '';
+                        parentLabel.style.border = '1px solid var(--cor-borda)';
+                    });
+
+                    if (respostaSelecionada) {
+                        const labelSelecionada = respostaSelecionada.parentElement;
+                        const respostaCorretaInput = quizForm.querySelector(`input[name="${questao}"][value="${gabarito[questao]}"]`);
+                        
+                        if (respostaSelecionada.value === gabarito[questao]) {
+                            acertos++;
+                            labelSelecionada.style.backgroundColor = 'var(--cor-sucesso)';
+                            labelSelecionada.style.color = 'var(--cor-texto-sucesso)';
+                            labelSelecionada.style.border = '1px solid var(--cor-verde)';
+                        } else {
+                            labelSelecionada.style.backgroundColor = 'var(--cor-erro)';
+                            labelSelecionada.style.color = 'var(--cor-texto-erro)';
+                            labelSelecionada.style.border = '1px solid var(--cor-texto-erro)';
+                            if(respostaCorretaInput) {
+                                const labelCorreta = respostaCorretaInput.parentElement;
+                                labelCorreta.style.backgroundColor = 'var(--cor-sucesso)';
+                                labelCorreta.style.border = '1px solid var(--cor-verde)';
+                            }
+                        }
+                    }
+                }
+                
+                resultadoQuiz.textContent = `Você acertou ${acertos} de ${totalQuestoes} questões.`;
+                resultadoQuiz.style.color = acertos > (totalQuestoes / 2) ? 'var(--cor-verde)' : 'var(--cor-texto-erro)';
+            });
+        });
+    </script>
+</body>
+</html>
