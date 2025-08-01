@@ -12,75 +12,171 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
     <div class="container mx-auto p-4 md:p-8">
         
-        <!-- Header -->
-        <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold text-blue-800">Portal de Aulas</h1>
-            <p class="text-xl text-gray-600 mt-2">Pós-Graduação em Hematologia Clínica</p>
-        </header>
+        <!-- Main View -->
+        <div id="main-view" class="view active">
+            <!-- Header -->
+            <header class="text-center mb-10">
+                <h1 class="text-4xl md:text-5xl font-bold text-blue-800">Portal de Aulas</h1>
+                <p class="text-xl text-gray-600 mt-2">Pós-Graduação em Hematologia Clínica</p>
+            </header>
 
-        <!-- Part Buttons -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
-            
-            <a href="parte1.html" target="_blank" class="col-span-1 md:col-span-2 lg:col-span-3 bg-blue-700 text-white p-6 rounded-xl shadow-lg hover:bg-blue-800 transition-transform hover:scale-105 flex items-center justify-center text-center">
-                <div>
-                    <h3 class="text-xl font-bold">Parte I: Fundamentos Históricos e Científicos</h3>
-                    <p class="text-sm opacity-90 mt-1">Capítulos 1 a 4</p>
-                </div>
-            </a>
+            <!-- Part Buttons -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+                <button onclick="showPart(1)" class="col-span-1 md:col-span-2 lg:col-span-3 bg-blue-700 text-white p-6 rounded-xl shadow-lg hover:bg-blue-800 transition-transform hover:scale-105 text-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Parte I: Fundamentos Históricos e Científicos</h3>
+                        <p class="text-sm opacity-90 mt-1">Capítulos 1 a 4</p>
+                    </div>
+                </button>
+                <button onclick="showPart(2)" class="bg-green-600 text-white p-6 rounded-xl shadow-lg hover:bg-green-700 transition-transform hover:scale-105 text-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Parte II: Biossegurança</h3>
+                        <p class="text-sm opacity-90 mt-1">Capítulos 5 a 9</p>
+                    </div>
+                </button>
+                <button onclick="showPart(3)" class="bg-yellow-500 text-white p-6 rounded-xl shadow-lg hover:bg-yellow-600 transition-transform hover:scale-105 text-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Parte III: Controle de Qualidade</h3>
+                        <p class="text-sm opacity-90 mt-1">Capítulos 10 a 14</p>
+                    </div>
+                </button>
+                <button onclick="showPart(4)" class="bg-purple-600 text-white p-6 rounded-xl shadow-lg hover:bg-purple-700 transition-transform hover:scale-105 text-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Parte IV: Inovação e Tecnologia</h3>
+                        <p class="text-sm opacity-90 mt-1">Capítulos 15 a 18</p>
+                    </div>
+                </button>
+                <button onclick="showPart(5)" class="col-span-1 md:col-span-2 lg:col-span-3 bg-red-600 text-white p-6 rounded-xl shadow-lg hover:bg-red-700 transition-transform hover:scale-105 text-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Parte V: Casos Práticos, Protocolos e Experiências</h3>
+                        <p class="text-sm opacity-90 mt-1">Capítulos 19 a 21</p>
+                    </div>
+                </button>
+            </div>
 
-            <a href="parte2.html" target="_blank" class="bg-green-600 text-white p-6 rounded-xl shadow-lg hover:bg-green-700 transition-transform hover:scale-105 flex items-center justify-center text-center">
-                <div>
-                    <h3 class="text-xl font-bold">Parte II: Biossegurança</h3>
-                    <p class="text-sm opacity-90 mt-1">Capítulos 5 a 9</p>
+            <!-- Professor Card -->
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                <div class="flex-shrink-0">
+                    <img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-blue-800 shadow-md">
                 </div>
-            </a>
-
-            <a href="parte3.html" target="_blank" class="bg-yellow-500 text-white p-6 rounded-xl shadow-lg hover:bg-yellow-600 transition-transform hover:scale-105 flex items-center justify-center text-center">
-                <div>
-                    <h3 class="text-xl font-bold">Parte III: Controle de Qualidade</h3>
-                    <p class="text-sm opacity-90 mt-1">Capítulos 10 a 14</p>
+                <div class="text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-blue-800">Prof. Rodrigo Niskier Ferreira Barbosa</h2>
+                    <p class="text-blue-600 font-medium mt-1">niskier.rodrigo@gmail.com</p>
+                    <p class="mt-4 text-gray-700 text-sm">
+                        Biomédico (2003, UFPE), especialista em Biologia Molecular (2006, UPE), mestre em Genética e Biologia Molecular (2007, UFRN). Professor do ensino superior desde 2007, lecionando Mecanismos de Agressão, Patológicos e de Defesa no curso de Medicina (UNIPE). Pesquisador nas áreas de Imunologia, Genética e Neoplasias. Desenvolvedor de aplicações Web com ferramentas de AI-LLM desde 2024.
+                    </p>
+                    <a href="https://amzn.to/4mp4PRc" target="_blank" class="inline-block mt-4 bg-yellow-400 text-gray-900 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors shadow">
+                        Conheça meu livro 'Autoimunidade: Conexões Essenciais'
+                    </a>
                 </div>
-            </a>
-
-            <a href="parte4.html" target="_blank" class="bg-purple-600 text-white p-6 rounded-xl shadow-lg hover:bg-purple-700 transition-transform hover:scale-105 flex items-center justify-center text-center">
-                <div>
-                    <h3 class="text-xl font-bold">Parte IV: Inovação e Tecnologia</h3>
-                    <p class="text-sm opacity-90 mt-1">Capítulos 15 a 18</p>
-                </div>
-            </a>
-
-            <a href="parte5.html" target="_blank" class="col-span-1 md:col-span-2 lg:col-span-3 bg-red-600 text-white p-6 rounded-xl shadow-lg hover:bg-red-700 transition-transform hover:scale-105 flex items-center justify-center text-center">
-                <div>
-                    <h3 class="text-xl font-bold">Parte V: Casos Práticos, Protocolos e Experiências</h3>
-                    <p class="text-sm opacity-90 mt-1">Capítulos 19 a 21</p>
-                </div>
-            </a>
+            </div>
         </div>
 
-        <!-- Professor Card -->
-        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-8">
-            <div class="flex-shrink-0">
-                <img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-blue-800 shadow-md">
+        <!-- Part 1 View -->
+        <div id="part1-view" class="view">
+            <header class="text-center mb-10">
+                <h1 class="text-4xl md:text-5xl font-bold text-blue-800">Parte I</h1>
+                <p class="text-xl text-gray-600 mt-2">Fundamentos Históricos e Científicos</p>
+            </header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <a href="hemato1.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-blue-700">Capítulo 1</h3><p class="text-gray-600 mt-1">Evolução Histórica da Hematologia</p></a>
+                <a href="hemato2.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-blue-700">Capítulo 2</h3><p class="text-gray-600 mt-1">Impacto das Pandemias</p></a>
+                <a href="hemato3.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-blue-700">Capítulo 3</h3><p class="text-gray-600 mt-1">Princípios Científicos da Biossegurança</p></a>
+                <a href="hemato4.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-blue-700">Capítulo 4</h3><p class="text-gray-600 mt-1">Ética, Legislação e Regulamentação</p></a>
             </div>
-            <div class="text-center md:text-left">
-                <h2 class="text-2xl font-bold text-blue-800">Prof. Rodrigo Niskier Ferreira Barbosa</h2>
-                <p class="text-blue-600 font-medium mt-1">niskier.rodrigo@gmail.com</p>
-                <p class="mt-4 text-gray-700 text-sm">
-                    Biomédico (2003, UFPE), especialista em Biologia Molecular (2006, UPE), mestre em Genética e Biologia Molecular (2007, UFRN). Professor do ensino superior desde 2007, lecionando Mecanismos de Agressão, Patológicos e de Defesa no curso de Medicina (UNIPE). Pesquisador nas áreas de Imunologia, Genética e Neoplasias. Desenvolvedor de aplicações Web com ferramentas de AI-LLM desde 2024.
-                </p>
-                <a href="https://amzn.to/4mp4PRc" target="_blank" class="inline-block mt-4 bg-yellow-400 text-gray-900 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors shadow">
-                    Conheça meu livro 'Autoimunidade: Conexões Essenciais'
-                </a>
+            <footer class="bg-white mt-12 py-6 rounded-xl shadow-lg"><div class="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left"><img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-16 h-16 rounded-full object-cover border-2 border-blue-800"><div><p class="font-bold text-blue-800">Prof. Rodrigo Niskier Ferreira Barbosa</p><p class="text-sm text-blue-600">niskier.rodrigo@gmail.com</p><a href="https://amzn.to/4mp4PRc" target="_blank" class="text-sm text-yellow-600 hover:underline">Conheça meu livro</a></div></div></footer>
+            <div class="text-center mt-8"><button onclick="showMain()" class="bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Voltar ao Menu Principal</button></div>
+        </div>
+
+        <!-- Part 2 View -->
+        <div id="part2-view" class="view">
+            <header class="text-center mb-10"><h1 class="text-4xl md:text-5xl font-bold text-green-700">Parte II</h1><p class="text-xl text-gray-600 mt-2">Biossegurança em Hematologia Laboratorial</p></header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <a href="hemato5.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-green-600">Capítulo 5</h3><p class="text-gray-600 mt-1">Classificação de Riscos</p></a>
+                <a href="hemato6.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-green-600">Capítulo 6</h3><p class="text-gray-600 mt-1">Estrutura Física e Engenharia</p></a>
+                <a href="hemato7.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-green-600">Capítulo 7</h3><p class="text-gray-600 mt-1">EPC e EPI</p></a>
+                <a href="hemato8.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-green-600">Capítulo 8</h3><p class="text-gray-600 mt-1">Procedimentos Operacionais Padrão</p></a>
+                <a href="hemato9.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center sm:col-span-2 lg:col-span-1"><h3 class="text-lg font-bold text-green-600">Capítulo 9</h3><p class="text-gray-600 mt-1">Prevenção e Controle de Infecções</p></a>
             </div>
+            <footer class="bg-white mt-12 py-6 rounded-xl shadow-lg"><div class="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left"><img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-16 h-16 rounded-full object-cover border-2 border-green-700"><div><p class="font-bold text-green-700">Prof. Rodrigo Niskier Ferreira Barbosa</p><p class="text-sm text-green-600">niskier.rodrigo@gmail.com</p><a href="https://amzn.to/4mp4PRc" target="_blank" class="text-sm text-yellow-600 hover:underline">Conheça meu livro</a></div></div></footer>
+            <div class="text-center mt-8"><button onclick="showMain()" class="bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Voltar ao Menu Principal</button></div>
+        </div>
+
+        <!-- Part 3 View -->
+        <div id="part3-view" class="view">
+            <header class="text-center mb-10"><h1 class="text-4xl md:text-5xl font-bold text-yellow-600">Parte III</h1><p class="text-xl text-gray-600 mt-2">Controle de Qualidade em Hematologia Laboratorial</p></header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <a href="hemato10.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-yellow-500">Capítulo 10</h3><p class="text-gray-600 mt-1">Fundamentos do CQ</p></a>
+                <a href="hemato11.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-yellow-500">Capítulo 11</h3><p class="text-gray-600 mt-1">Qualidade Pré-analítica</p></a>
+                <a href="hemato12.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-yellow-500">Capítulo 12</h3><p class="text-gray-600 mt-1">Qualidade Analítica</p></a>
+                <a href="hemato13.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-yellow-500">Capítulo 13</h3><p class="text-gray-600 mt-1">Qualidade Pós-analítica</p></a>
+                <a href="hemato14.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center sm:col-span-2 lg:col-span-1"><h3 class="text-lg font-bold text-yellow-500">Capítulo 14</h3><p class="text-gray-600 mt-1">Gestão de Não Conformidades</p></a>
+            </div>
+            <footer class="bg-white mt-12 py-6 rounded-xl shadow-lg"><div class="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left"><img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-16 h-16 rounded-full object-cover border-2 border-yellow-600"><div><p class="font-bold text-yellow-600">Prof. Rodrigo Niskier Ferreira Barbosa</p><p class="text-sm text-yellow-500">niskier.rodrigo@gmail.com</p><a href="https://amzn.to/4mp4PRc" target="_blank" class="text-sm text-yellow-600 hover:underline">Conheça meu livro</a></div></div></footer>
+            <div class="text-center mt-8"><button onclick="showMain()" class="bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Voltar ao Menu Principal</button></div>
+        </div>
+
+        <!-- Part 4 View -->
+        <div id="part4-view" class="view">
+            <header class="text-center mb-10"><h1 class="text-4xl md:text-5xl font-bold text-purple-800">Parte IV</h1><p class="text-xl text-gray-600 mt-2">Inovação, Tecnologia e Futuro da Hematologia</p></header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <a href="hemato15.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-purple-700">Capítulo 15</h3><p class="text-gray-600 mt-1">Automação, IA e Hematologia Digital</p></a>
+                <a href="hemato16.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-purple-700">Capítulo 16</h3><p class="text-gray-600 mt-1">Gestão da Qualidade e Acreditação</p></a>
+                <a href="hemato17.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-purple-700">Capítulo 17</h3><p class="text-gray-600 mt-1">Capacitação e Cultura de Segurança</p></a>
+                <a href="hemato18.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-purple-700">Capítulo 18</h3><p class="text-gray-600 mt-1">Desafios Contemporâneos e Pandemias</p></a>
+            </div>
+            <footer class="bg-white mt-12 py-6 rounded-xl shadow-lg"><div class="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left"><img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-16 h-16 rounded-full object-cover border-2 border-purple-800"><div><p class="font-bold text-purple-800">Prof. Rodrigo Niskier Ferreira Barbosa</p><p class="text-sm text-purple-600">niskier.rodrigo@gmail.com</p><a href="https://amzn.to/4mp4PRc" target="_blank" class="text-sm text-yellow-600 hover:underline">Conheça meu livro</a></div></div></footer>
+            <div class="text-center mt-8"><button onclick="showMain()" class="bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Voltar ao Menu Principal</button></div>
+        </div>
+
+        <!-- Part 5 View -->
+        <div id="part5-view" class="view">
+            <header class="text-center mb-10"><h1 class="text-4xl md:text-5xl font-bold text-red-800">Parte V</h1><p class="text-xl text-gray-600 mt-2">Casos Práticos, Protocolos e Experiências</p></header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <a href="hemato19.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-red-700">Capítulo 19</h3><p class="text-gray-600 mt-1">Estudos de Caso e Análise de Incidentes</p></a>
+                <a href="hemato20.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-red-700">Capítulo 20</h3><p class="text-gray-600 mt-1">Protocolos e POPs Exemplares</p></a>
+                <a href="hemato21.html" target="_blank" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all text-center"><h3 class="text-lg font-bold text-red-700">Capítulo 21</h3><p class="text-gray-600 mt-1">Anexos Técnicos e Formulários</p></a>
+            </div>
+            <footer class="bg-white mt-12 py-6 rounded-xl shadow-lg"><div class="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left"><img src="foto.jpg" alt="Foto do Prof. Rodrigo Niskier" class="w-16 h-16 rounded-full object-cover border-2 border-red-800"><div><p class="font-bold text-red-800">Prof. Rodrigo Niskier Ferreira Barbosa</p><p class="text-sm text-red-600">niskier.rodrigo@gmail.com</p><a href="https://amzn.to/4mp4PRc" target="_blank" class="text-sm text-yellow-600 hover:underline">Conheça meu livro</a></div></div></footer>
+            <div class="text-center mt-8"><button onclick="showMain()" class="bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Voltar ao Menu Principal</button></div>
         </div>
 
     </div>
+
+    <script>
+        const mainView = document.getElementById('main-view');
+        const partViews = document.querySelectorAll('[id^="part"]');
+
+        function showView(viewToShow) {
+            partViews.forEach(view => view.classList.remove('active'));
+            mainView.classList.remove('active');
+            viewToShow.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showPart(partNumber) {
+            const partView = document.getElementById(`part${partNumber}-view`);
+            if (partView) {
+                showView(partView);
+            }
+        }
+
+        function showMain() {
+            showView(mainView);
+        }
+    </script>
 
 </body>
 </html>
